@@ -35,11 +35,13 @@ namespace ParkingCharges
                 if (strCustomer == ".")
                 {
                     intInfiniteLoop = 1;
+                    //Yay I get to use the old "GOTO"!
                     goto Finish;
                 }
                 else
                 {
                     dblCustomer = Convert.ToDouble(strCustomer);
+                    //Do something to make sure the number is input as a decimal:
                     lstCustomers.Add(dblCustomer);
                 }                
             }
@@ -47,35 +49,62 @@ namespace ParkingCharges
             Finish:
             lstCustomers = CalculateCharges(lstCustomers);
 
+            foreach (double charge in lstCustomers)
+            {
+                Console.WriteLine(charge);
+            }
 
-            Console.WriteLine("END OF PROGRAM.");
-
-
+            Console.WriteLine("Hit any key to close program.");
+            Console.WriteLine("_____________________________");
+            Console.ReadKey();
         }
 
         //Calculates charges:
-        public static List<double> CalculateCharges(List<double> lstcusts)
+        public static List<double> CalculateCharges(List<double> lstCusts)
         {
-            List<double> lstcharges = new List<double>();
+            //Holds current charges:
+            List<double> lstCharges = new List<double>();
 
+            //Constants:
             const double MIN_CHARGE_3_HOURS = 2.00;
             const double EACH_ADDITIONAL_HOUR = 0.50;
 
-            foreach (double customer in lstcusts)
+            //Iterates through list, calculates charges:
+            foreach (double customer in lstCusts)
             {
+                //Under three hours parked:
                 if (customer <= 3.0)
                 {
-                    lstcharges.Add(2.00);
+                    lstCharges.Add(MIN_CHARGE_3_HOURS);
                 }
+                //Over three hours parked:
                 else
                 {
-                    double leftover;
-                    leftover = customer - 3.0;
-                    leftover * 
+                    //Holds leftover time over 3 hours:
+                    double dblLeftover = customer - 3.0;
+                    //Splits the leftover double into two numbers:
+                    var varLeftover = dblLeftover.ToString().Split('.');
+                    double dblFirstPart = double.Parse(varLeftover[0]);
+                    double dblSecPart = double.Parse(varLeftover[1]);
 
+                    //Calculates for the whole number:
+                    dblFirstPart = dblFirstPart * EACH_ADDITIONAL_HOUR;
+
+                    //Calculates for the decimal (anything larger than zero gets charged 
+                    //the whole amount):
+                    if (dblSecPart > .0)
+                    {
+                        dblSecPart = EACH_ADDITIONAL_HOUR;
+                    }
+
+                    //Totals:
+                    double dblTotalCharge = dblFirstPart + dblSecPart + MIN_CHARGE_3_HOURS;
+
+                    //Adds to list:
+                    lstCharges.Add(dblTotalCharge);
                 }
             }
-            return lstcharges;
+            return lstCharges;
         }
     }
 }
