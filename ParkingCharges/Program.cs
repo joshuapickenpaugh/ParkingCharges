@@ -1,4 +1,8 @@
-﻿using System;
+﻿//Joshua Pickenpaugh
+//August 1st, 2017
+//Parking Charges
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +14,7 @@ namespace ParkingCharges
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
