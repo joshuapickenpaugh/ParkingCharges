@@ -35,13 +35,11 @@ namespace ParkingCharges
                 if (strCustomer == ".")
                 {
                     intInfiniteLoop = 1;
-                    //Yay I get to use the old "GOTO"!
                     goto Finish;
                 }
                 else
                 {
-                    dblCustomer = Convert.ToDouble(strCustomer);
-                    //Do something to make sure the number is input as a decimal:
+                    dblCustomer = Convert.ToDouble(strCustomer); 
                     lstCustomers.Add(dblCustomer);
                 }                
             }
@@ -72,6 +70,7 @@ namespace ParkingCharges
             //Iterates through list, calculates charges:
             foreach (double customer in lstCusts)
             {
+
                 //Under three hours parked:
                 if (customer <= 3.0)
                 {
@@ -82,8 +81,9 @@ namespace ParkingCharges
                 {
                     //Holds leftover time over 3 hours:
                     double dblLeftover = customer - 3.0;
+                    string strCustomer = string.Format("{0:#,###0.00}", dblLeftover);
                     //Splits the leftover double into two numbers:
-                    var varLeftover = dblLeftover.ToString().Split('.');
+                    var varLeftover = strCustomer.ToString().Split('.');
                     double dblFirstPart = double.Parse(varLeftover[0]);
                     double dblSecPart = double.Parse(varLeftover[1]);
 
