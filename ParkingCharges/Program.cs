@@ -32,6 +32,7 @@ namespace ParkingCharges
                 x = x + 1;
 
                 strCustomer = Console.ReadLine();
+                //Exits loop, then calculates:
                 if (strCustomer == ".")
                 {
                     intInfiniteLoop = 1;
@@ -45,15 +46,21 @@ namespace ParkingCharges
             }
 
             Finish:
+            //Reset customer counter:
+            x = 1;
             lstCustomers = CalculateCharges(lstCustomers);
 
+            Console.WriteLine("________________________________________________________");
+
+            //Outputs:
             foreach (double charge in lstCustomers)
             {
-                Console.WriteLine(charge);
+                Console.WriteLine("Customer " + x +": " + string.Format("${0:0.00}", charge));
+                x = x + 1;
             }
 
-            Console.WriteLine("Hit any key to close program.");
             Console.WriteLine("_____________________________");
+            Console.WriteLine("Hit any key to close program.");
             Console.ReadKey();
         }
 
@@ -81,7 +88,10 @@ namespace ParkingCharges
                 {
                     //Holds leftover time over 3 hours:
                     double dblLeftover = customer - 3.0;
+
+                    //Formats leftover amount so it can be split:
                     string strCustomer = string.Format("{0:#,###0.00}", dblLeftover);
+
                     //Splits the leftover double into two numbers:
                     var varLeftover = strCustomer.ToString().Split('.');
                     double dblFirstPart = double.Parse(varLeftover[0]);
@@ -99,6 +109,13 @@ namespace ParkingCharges
 
                     //Totals:
                     double dblTotalCharge = dblFirstPart + dblSecPart + MIN_CHARGE_3_HOURS;
+
+                    //Max charge per day is $10.00, and no one can park 
+                    //longer than a 24-hour period:
+                    if (dblTotalCharge >= 10.00)
+                    {
+                        dblTotalCharge = 10.00;
+                    }
 
                     //Adds to list:
                     lstCharges.Add(dblTotalCharge);
